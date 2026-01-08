@@ -3,7 +3,7 @@ vcl 4.1;
 acl admin_network {
 	"localhost";
 	"157.245.40.168";
-	"88.185.247.79";
+	"ADMIN_IP";
 }
 
 # Default backend definition. Set this to point to your content server.
