@@ -1,3 +1,15 @@
+#
+# This is an example VCL file for Varnish.
+#
+# It does not do anything by default, delegating control to the
+# builtin VCL. The builtin VCL is called when there is no explicit
+# return statement.
+#
+# See the VCL chapters in the Users Guide for a comprehensive documentation
+# at https://www.varnish-cache.org/docs/.
+
+# Marker to tell the VCL compiler that this VCL has been written with the
+# 4.0 or 4.1 syntax.
 vcl 4.1;
 
 acl admin_network {
@@ -13,18 +25,21 @@ backend default {
 }
 
 sub vcl_recv {
-    # Happens before we check if we have this in cache already.
-    #
-    # Typically you clean up the request here, removing cookies you don't need,
-    # rewriting the request, etc.
     if (req.url == "/admin") {
-    	if (!client.ip ~ admin_network) {
-		return (synth(403, "Access Denied"));
+        if (!client.ip ~ admin_network) {
+            return (synth(403, "Access Denied"));
         }
-	return (synth(200, "Admin Access Granted"));
+        return (synth(200, "Admin Access Granted"));
     }
-    if (req.url != "/" && req.url != "/admin") {
-	return (synth(404, "Not Found"));
+
+    # let coding files pass through
+    if (req.url ~ "\.(css|js|png|jpg)$") {
+        return (hash);
+    }
+
+    # 3. Block everything else
+    if (req.url != "/") {
+         return (synth(404, "Not Found"));
     }
 }
 
@@ -51,10 +66,30 @@ sub vcl_deliver {
 
 sub vcl_synth {
 	if (resp.status == 404) {
-		set resp.http.Content-Type = "text/html; charset=utf-8";
-		synthetic("<html><body><h1>404 ERROR, Error finding page, please try again with a different page</h1></body></html>");
-		return (deliver);
-	}
+        set resp.http.Content-Type = "text/html; charset=utf-8";
+        synthetic({"
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>404 Not Found</title>
+                <script src="https://cdn.tailwindcss.com"></script>
+            </head>
+            <body class="bg-slate-900 text-white h-screen flex flex-col items-center justify-center font-sans">
+                <div class="text-center p-8 bg-slate-800 rounded-xl border border-slate-700 shadow-2xl">
+                    <h1 class="text-6xl font-bold text-red-500 mb-4">404</h1>
+                    <h2 class="text-2xl font-semibold mb-2">Page Not Found</h2>
+                    <p class="text-slate-400 mb-6">The page you are looking for does not exist on this Edge Node.</p>
+                    <a href="/" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition">
+                        Go Home
+                    </a>
+                </div>
+                <p class="mt-8 text-xs text-slate-600 font-mono">FlashPoint CDN • London Edge</p>
+            </body>
+            </html>
+        "});
+        
+        return (deliver);
+    	}
         if (resp.status == 403) {
                 set resp.http.Content-Type = "test/html; charset=utf-8";
 		synthetic("<html><body><h1>403 ERROR, You cannot access this page as you are not an admin</h1></body></html>");
