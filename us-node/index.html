@@ -1,1 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashPoint CDN Status</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        red: '#FF282D',
+                        darkbg: '#0F1117',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-darkbg text-slate-300 font-sans h-screen flex flex-col items-center justify-center selection:bg-red selection:text-white">
+    <h1 class="text-2xl font-bold text-white mb-10">Welcome to the New York Server</h1>
+    <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-xl shadow-2xl overflow-hidden relative">
+        
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 via-red to-purple-600"></div>
 
+        <div class="p-8 text-center">
+            <div class="mb-6">
+                <h1 class="text-3xl font-bold text-white tracking-tight">FlashPoint <span class="text-red">CDN</span></h1>
+                <p class="text-xs font-mono text-slate-500 mt-1 uppercase tracking-widest">Edge Delivery Network</p>
+            </div>
+
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-8">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span class="text-xs font-semibold text-emerald-400">System Operational</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 text-left">
+                <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                    <p class="text-[10px] uppercase text-slate-500 font-bold mb-1">Origin Node</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🇺🇸</span>
+                        <div>
+                            <p class="text-sm font-medium text-white">New York</p>
+                            <p class="text-[10px] text-slate-400 font-mono">nginx/1.18</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-800/50 rounded-lg border border-slate-700/50">
+                    <p class="text-[10px] uppercase text-slate-500 font-bold mb-1">Edge Node</p>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🇬🇧</span>
+                        <div>
+                            <p class="text-sm font-medium text-white">London</p>
+                            <p class="text-[10px] text-slate-400 font-mono">varnish/7.1</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-slate-950 p-4 border-t border-slate-800 flex justify-between items-center text-xs font-mono">
+        </div>
+    </div>
+
+    <p class="mt-8 text-slate-600 text-xs">Architected by Solaiman Zinger</p>
+
+</body>
+</html>
