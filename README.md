@@ -1,4 +1,4 @@
-# FlashPoint CDN ⚡️
+# FlashPoint CDN 
 
 **FlashPoint** is a distributed Content Delivery Network (CDN) engineered to optimize latency and security for international traffic. Built from scratch using **Varnish Cache** (Edge) and **Nginx** (Origin). This is only the start of the project, more feature coming soon!
 
