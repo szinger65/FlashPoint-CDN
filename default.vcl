@@ -91,7 +91,7 @@ sub vcl_synth {
         return (deliver);
     	}
         if (resp.status == 403) {
-                set resp.http.Content-Type = "test/html; charset=utf-8";
+                set resp.http.Content-Type = "text/html; charset=utf-8";
 		synthetic("<html><body><h1>403 ERROR, You cannot access this page as you are not an admin</h1></body></html>");
                 return (deliver);
 	}
